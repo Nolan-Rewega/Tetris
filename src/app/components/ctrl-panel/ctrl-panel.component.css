@@ -1,0 +1,6 @@
+.ctrlPanel{
+    display: flex;
+    padding: 5px 10px;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { withDebugTracing } from '@angular/router';
+
 
 @Component({
   selector: 'app-shape',
@@ -14,7 +13,6 @@ export class ShapeComponent implements OnInit {
   // -- Input parameters.
   @Input() m_type: string = "";
   @Input() m_color: string = "";
-  @Input() m_origin: [number, number] = [0,0];
 
   // -- DOM objects viewers
   @ViewChild('grid', {static: false})m_grid!: ElementRef;
@@ -30,14 +28,10 @@ export class ShapeComponent implements OnInit {
     this.generateShapeHTML();
   }
 
-  public translateShape(translateRight:boolean): void{
-    this.m_origin[1] += (translateRight) ? 1 : -1;
-  }
-
 
   public rotateShape(clockwise:boolean): void{
-    const rows = this.m_cells.length;
-    const cols = this.m_cells[0].length; 
+    const rows:number = this.m_cells.length;
+    const cols:number = this.m_cells[0].length; 
 
     // -- Define a new Cols x Rows array.  
     var rotated: number[][] = [];
@@ -57,19 +51,10 @@ export class ShapeComponent implements OnInit {
         }
       }
     }
-
-    console.log(rotated);
+    
     this.m_cells = rotated;
-
   }
 
-
-  public removeRow(row:number): void{
-    let targetRow = this.m_origin[0] - row; 
-    // -- Remove the row, and increase the origin 
-    this.m_cells.splice(targetRow, 1);
-    this.m_origin[0]++;
-  }
 
 
   private setCells(type:string): void{
@@ -114,15 +99,15 @@ export class ShapeComponent implements OnInit {
 
   private generateShapeHTML(): void{
     // -- Generate tetris piece via DOM manipulation.
-    const rows = this.m_cells.length;
-    const cols = this.m_cells[0].length; 
+    const rows:number = this.m_cells.length;
+    const cols:number = this.m_cells[0].length; 
 
     for(let r:number = 0; r < rows; r++){
       for(let c:number = 0; c < cols; c++){
         // -- I had to manually set the style because when I added a CSS Class 
         //    as below, no styling would show, even though the class was in 
         //    shape.component.css
-        const element = document.createElement("div");
+        const element:HTMLDivElement = document.createElement("div");
         //element.classList.add("Filled");
         element.style.width ="20px";
         element.style.height ="20px";
@@ -131,7 +116,7 @@ export class ShapeComponent implements OnInit {
 
         // -- Set the number of columns in grid to the number of columns
         //    of the tetris piece.
-        var len = this.m_cells[0].length;
+        var len:number = this.m_cells[0].length;
         this.m_grid.nativeElement.style.gridTemplateColumns = `repeat(${len}, 1fr)`;
         this.m_grid.nativeElement.append(element);
       }

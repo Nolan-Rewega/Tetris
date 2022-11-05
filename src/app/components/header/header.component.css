@@ -1,7 +1,10 @@
-header{
+.scorePanel{
     display: flex;
-    padding: 10px;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    width: 50%;
+}
+
+
+h3{
+    display: inline-block;
 }

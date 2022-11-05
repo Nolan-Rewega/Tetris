@@ -1,0 +1,17 @@
+.container{
+    display: inline-block;
+    align-content: center;
+    width: 350px;
+    height: 700px;
+}
+
+.board{
+    display: grid;
+    grid-gap: 1px;
+    grid-auto-columns: min-content;
+    background-color: #222222;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    width: 100%;
+    height: 100%;
+}

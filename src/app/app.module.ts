@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CtrlPanelComponent } from './components/ctrl-panel/ctrl-panel.component';
 import { ShapeComponent } from './components/shape/shape.component';
+import { BoardComponent } from './components/board/board.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ShapeComponent } from './components/shape/shape.component';
     HeaderComponent,
     ButtonComponent,
     CtrlPanelComponent,
-    ShapeComponent
+    ShapeComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule

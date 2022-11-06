@@ -9,7 +9,7 @@ import {Shape} from "../../Shape";
 })
 
 export class BoardComponent implements OnInit {
-  m_activeShape:Shape = new Shape("T", "Darkblue");
+  m_activeShape:Shape = new Shape("Z", "Darkblue");
   m_activeShapePos: [number, number] = [0, 4];
 
   m_board:number[][] = [];
@@ -29,11 +29,6 @@ export class BoardComponent implements OnInit {
 
 
   ngAfterViewInit(): void{
-    this.rotateShape(true);
-    this.translateShapeX(1);
-    for(let i:number = 0; i < 4; i++){
-      this.translateShapeY();
-    }
     this.generateBoardHTML();
   }
 
@@ -55,6 +50,7 @@ export class BoardComponent implements OnInit {
       this.addShape();
 
       // -- prep next shape
+      // -- check for tetris,
     }
 
   }
@@ -99,6 +95,26 @@ export class BoardComponent implements OnInit {
       this.m_activeShape.rotateShape(!clockwise);
       this.addShape();
     }
+  }
+
+
+  private checkFullRow(start:number, end:number){
+    // -- 0 <= Start <= end < m_rows;
+    var rowsToRemove:number[] = [];
+
+    for(let r:number = start; r <= end; r++){
+      var removeRow:boolean = true;
+
+      this.m_board[r].forEach( shape => {
+        if(shape == 0){ removeRow = false; }
+      });
+
+      if(removeRow) {rowsToRemove.push(r);}
+    }
+
+    // -- TODO: Allocate score. if rows are full
+
+    rowsToRemove.forEach(row => this.removeRow(row));
   }
 
 
@@ -147,7 +163,7 @@ export class BoardComponent implements OnInit {
   private removeRow(row:number): void{
     // -- Remove the row and add a new empty row.
     this.m_board.splice(row, 1);
-    this.m_board.unshift(new Array<number>(this.m_cols));
+    this.m_board.unshift((new Array<number>(this.m_cols)).fill(0));
   }
 
 

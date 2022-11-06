@@ -12,6 +12,7 @@ export class CtrlPanelComponent implements OnInit {
   ngOnInit(): void {}
 
   moveLeft(): void {}
+  moveDown(): void {}
   moveRight(): void {}
   rotateCCW(): void {}
   rotateCW(): void {}

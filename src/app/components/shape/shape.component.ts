@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-
+import {Shape} from "../../Shape";
 
 @Component({
   selector: 'app-shape',
@@ -7,100 +7,25 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
   styleUrls: ['./shape.component.css']
 })
 export class ShapeComponent implements OnInit {
-  // -- A nxm number array of filled shape cells.
-  m_cells: number[][] = [[]];
-
-  // -- Input parameters.
-  @Input() m_type: string = "";
-  @Input() m_color: string = "";
+  @Input() m_shape!: Shape;
 
   // -- DOM objects viewers
   @ViewChild('grid', {static: false})m_grid!: ElementRef;
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.setCells(this.m_type);
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit():void{
-    this.rotateShape(false);
     this.generateShapeHTML();
   }
 
-
-  public rotateShape(clockwise:boolean): void{
-    const rows:number = this.m_cells.length;
-    const cols:number = this.m_cells[0].length; 
-
-    // -- Define a new Cols x Rows array.  
-    var rotated: number[][] = [];
-
-    for(let i:number = 0; i < cols; i++){
-      rotated[i] = new Array<number>(rows);
-    }
-
-    // -- Fill in new array.
-    for(let r:number = 0; r < rows; r++){
-      for(let c:number = 0; c < cols; c++){
-        if(clockwise){ 
-          rotated[c][rows-1-r] = this.m_cells[r][c]; 
-        }
-        else{ 
-          rotated[cols-1-c][r] = this.m_cells[r][c]; 
-        }
-      }
-    }
-    
-    this.m_cells = rotated;
-  }
-
-
-
-  private setCells(type:string): void{
-    // -- Type selection.
-    if(type == "L"){
-      this.m_cells = [ [1, 0],
-                       [1, 0],
-                       [1, 1] ]
-    }
-    else if(type == "J"){
-      this.m_cells = [ [0, 1],
-                       [0, 1],
-                       [1, 1] ]
-    }
-    else if(type == "S"){
-      this.m_cells = [ [0, 1, 1],
-                       [1, 1, 0] ]
-    }
-    else if(type == "Z"){
-      this.m_cells = [ [1, 1, 0],
-                       [0, 1, 1] ]
-    }
-    else if(type == "T"){
-      this.m_cells = [ [1, 1, 1],
-                       [0, 1, 0] ]
-    }
-    else if(type == "O"){
-      this.m_cells = [ [1, 1],
-                       [1, 1] ]
-    }
-    else if(type == "I"){
-      this.m_cells = [ [1],
-                       [1],
-                       [1],
-                       [1] ]
-    }
-    else{
-      throw "Invalid shape type in class ShapeComponent.constructor(type:string).";
-    }
-  }
-
-
   private generateShapeHTML(): void{
-    // -- Generate tetris piece via DOM manipulation.
-    const rows:number = this.m_cells.length;
-    const cols:number = this.m_cells[0].length; 
+    // -- Generate Shape HTML via DOM manipulation.
+    const rows:number = this.m_shape.getHeight();
+    const cols:number = this.m_shape.getWidth(); 
+    const color:string = this.m_shape.getColor();
+    const cells:number[][] = this.m_shape.getShapeCells();
 
     for(let r:number = 0; r < rows; r++){
       for(let c:number = 0; c < cols; c++){
@@ -111,12 +36,12 @@ export class ShapeComponent implements OnInit {
         //element.classList.add("Filled");
         element.style.width ="20px";
         element.style.height ="20px";
-        element.style.backgroundColor = this.m_color;
-        element.style.opacity = `${this.m_cells[r][c]}`;
+        element.style.backgroundColor = color;
+        element.style.opacity = `${cells[r][c]}`;
 
         // -- Set the number of columns in grid to the number of columns
         //    of the tetris piece.
-        var len:number = this.m_cells[0].length;
+        var len:number = cells[0].length;
         this.m_grid.nativeElement.style.gridTemplateColumns = `repeat(${len}, 1fr)`;
         this.m_grid.nativeElement.append(element);
       }

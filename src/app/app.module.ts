@@ -7,6 +7,8 @@ import { ButtonComponent } from './components/button/button.component';
 import { CtrlPanelComponent } from './components/ctrl-panel/ctrl-panel.component';
 import { ShapeComponent } from './components/shape/shape.component';
 import { BoardComponent } from './components/board/board.component';
+import { QueueComponent } from './components/queue/queue.component';
+import { GameComponent } from './components/game/game.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { BoardComponent } from './components/board/board.component';
     ButtonComponent,
     CtrlPanelComponent,
     ShapeComponent,
-    BoardComponent
+    BoardComponent,
+    QueueComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule

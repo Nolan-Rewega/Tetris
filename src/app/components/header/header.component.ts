@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  score:string = "000000";
-  hiscore:string = "000123";
-  username:string = "Johndoe23";
+  score:string = "00000000";
+  hiscore:string = "00001234";
+  username:string = "Mayhem_john22";
 
   constructor() { }
 
